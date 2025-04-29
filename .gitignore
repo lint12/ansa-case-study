@@ -1,2 +1,4 @@
 .venv/
 .DS_Store
+company_data.parquet
+target_company_data.parquet
