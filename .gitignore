@@ -2,3 +2,5 @@
 .DS_Store
 company_data.parquet
 target_company_data.parquet
+**/__pycache__/
+*.pyc
