@@ -117,10 +117,10 @@ def plot_missing_comparison(missing_comparison, top_n=50):
 
     plt.show()
 
-def plot_growth(metric, df, num_months=18, time_direction='backward'):
+def plot_growth(metric, df, num_months=17, time_direction='backward'):
     month_cols = []
     
-    if 'growth' in metric:
+    if 'growth' in metric and 'trailing' not in metric:
         month_cols = [f'{metric}_{m}m' for m in [1, 3, 6, 12]]
     else:
         month_cols = [f'{metric}_{m}m' for m in range(num_months + 1)]
@@ -129,7 +129,7 @@ def plot_growth(metric, df, num_months=18, time_direction='backward'):
     plt.figure(figsize=(8, 4))
     for i, row in df.iterrows():
         y = row[month_cols].apply(lambda x: np.nan if pd.isna(x) else x).values
-        if 'growth' in metric:
+        if 'growth' in metric and 'trailing' not in metric:
             plt.plot([1, 3, 6, 12], y, alpha=0.4)
         else:
             plt.plot(range(num_months + 1), y, alpha=0.4)  # label only a few for clarity
@@ -137,7 +137,7 @@ def plot_growth(metric, df, num_months=18, time_direction='backward'):
     plt.xlabel('Months (0m = reference point)')
     plt.ylabel(f"{metric}")
     if time_direction == 'backward':
-        plt.title(f'{metric} {num_months} Months Ago (n={len(df)})')
+        plt.title(f'{metric} up to {num_months} Months Ago (n={len(df)})')
     else:
         plt.title(f'{metric} {num_months} Months in (n={len(df)})')
     plt.grid(True)
